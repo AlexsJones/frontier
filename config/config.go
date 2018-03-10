@@ -22,7 +22,7 @@ type Config struct {
 	Server     Server `yaml:"Server"`
 }
 
-func (*Config) loadConfigurationFromFile(filePath string) (*Config, error) {
+func loadConfigurationFromFile(filePath string) (*Config, error) {
 	yamlFile, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		return nil, err
@@ -32,19 +32,20 @@ func (*Config) loadConfigurationFromFile(filePath string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Println(d)
 	log.Println("Successfully loaded configuration file")
 	return d, nil
 }
 
 //LoadResource either from URL or local path
-func (c *Config) LoadResource(remoteConfigSavePath string, resourceURI string) (*Config, error) {
+func LoadResource(remoteConfigSavePath string, resourceURI string) (*Config, error) {
 	u, err := url.ParseRequestURI(resourceURI)
 	if err != nil {
 		if _, err = os.Stat(resourceURI); os.IsNotExist(err) {
 			return nil, err
 		} else {
 			//Load from file...
-			return c.loadConfigurationFromFile(resourceURI)
+			return loadConfigurationFromFile(resourceURI)
 		}
 	}
 	//Load from URL ...
@@ -72,5 +73,5 @@ func (c *Config) LoadResource(remoteConfigSavePath string, resourceURI string) (
 		return nil, err
 	}
 
-	return c.loadConfigurationFromFile(remoteConfigSavePath)
+	return loadConfigurationFromFile(remoteConfigSavePath)
 }
