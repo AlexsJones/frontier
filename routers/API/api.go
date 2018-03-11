@@ -10,15 +10,11 @@ import (
 //APIRouter definition
 type APIRouter struct {
 	routers.BaseRouter
-	hasBeenConfigured       bool
-	hasSubRoutersConfigured bool
 }
 
 //Configure the APIRouter
 func (d *APIRouter) Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) {
-	if d.hasBeenConfigured {
-		return
-	}
+
 	d.BaseRouter.Router = root.PathPrefix("/api").Subrouter()
 }
 
