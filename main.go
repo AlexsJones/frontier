@@ -9,7 +9,8 @@ import (
 
 	"github.com/AlexsJones/frontier/config"
 	"github.com/AlexsJones/frontier/middleware"
-	"github.com/AlexsJones/frontier/routers"
+	api "github.com/AlexsJones/frontier/routers/API"
+	"github.com/AlexsJones/frontier/routers/API/v1"
 	"github.com/gorilla/mux"
 )
 
@@ -34,12 +35,17 @@ func main() {
 	r := mux.NewRouter().StrictSlash(false)
 
 	//Load routers & subrouters
-	routers := []routers.IRouter{&routers.DefaultRouter{}}
+	apiRouter := &api.APIRouter{}
+	apiRouter.Configure(r, middleware.DefaultMiddleware)
+	//version
+	v1Router := &v1.V1Router{}
+	v1Router.Configure(apiRouter.GetRouter(), middleware.DefaultMiddleware)
+	//Example v1Route
+	v1Router.GetRouter().HandleFunc("/", func(arg1 http.ResponseWriter, arg2 *http.Request) {
 
-	for _, i := range routers {
-		i.Configure(r, middleware.DefaultMiddleware)
-		log.Printf("Configured router\n")
-	}
+		arg1.Write([]byte("Here be dragons!"))
+	})
+
 	log.Printf("Starting on port %s\n", c.Server.Port)
 	http.ListenAndServe(":"+c.Server.Port, r)
 }

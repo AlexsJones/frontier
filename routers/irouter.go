@@ -9,7 +9,8 @@ import (
 //IRouter provides a common interface for router initialisation
 type IRouter interface {
 	Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc))
-	GetSubRouter() (*mux.Router, error)
+	GetRouter() IRouter
+	GetName() string
 }
 
 //Configure must be called to initialise routing from the primary
@@ -18,8 +19,13 @@ func Configure(ir IRouter, root *mux.Router, middleware func(rw http.ResponseWri
 	ir.Configure(root, middleware)
 }
 
-//GetSubRouter if it exists
-func GetSubRouter(ir IRouter) (*mux.Router, error) {
+//GetRouter ...
+func GetRouter(ir IRouter) IRouter {
+	return ir.GetRouter()
+}
 
-	return ir.GetSubRouter()
+//GetName ...
+func GetName(ir IRouter) string {
+
+	return ir.GetName()
 }
