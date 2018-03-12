@@ -16,6 +16,16 @@ type V1Router struct {
 func (d *V1Router) Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) {
 
 	d.BaseRouter.Router = root.PathPrefix("/v1").Subrouter()
+
+	//Example route to demonstrate processing components
+	d.BaseRouter.Router.HandleFunc("/processor", func(arg1 http.ResponseWriter, arg2 *http.Request) {
+		if arg2.Method == "POST" {
+
+			arg1.WriteHeader(http.StatusOK)
+		} else {
+			arg1.WriteHeader(http.StatusBadRequest)
+		}
+	})
 }
 
 //GetRouter ...
