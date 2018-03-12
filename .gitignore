@@ -1,1 +1,4 @@
 frontier
+.bin
+test/plot.html
+test/metrics.json

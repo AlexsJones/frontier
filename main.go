@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/AlexsJones/frontier/config"
 	"github.com/AlexsJones/frontier/middleware"
@@ -43,8 +42,6 @@ func main() {
 	v1Router.Configure(apiRouter.GetRouter(), middleware.DefaultMiddleware)
 
 	log.Printf("Starting on port %s\n", c.Server.Port)
-
-	http.TimeoutHandler(r, time.Second*10, "TIMEOUT")
 
 	log.Fatal(http.ListenAndServe(":"+c.Server.Port, r))
 }
