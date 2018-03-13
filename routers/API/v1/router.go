@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/AlexsJones/frontier/routers"
+	"github.com/AlexsJones/frontier/routers/API/v1/example"
 	"github.com/gorilla/mux"
 )
 
@@ -18,7 +19,7 @@ func (d *Router) Configure(root *mux.Router, middleware func(rw http.ResponseWri
 	d.BaseRouter.Router = root.PathPrefix("/v1").Subrouter()
 
 	//Example route to demonstrate processing components
-	d.BaseRouter.Router.HandleFunc("/processor", ExamplePost).Methods("POST")
+	d.BaseRouter.Router.HandleFunc("/processor", example.ExamplePost).Methods("POST")
 }
 
 //GetRouter ...
