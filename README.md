@@ -10,4 +10,4 @@ Having this pattern is useful for loading routes via batch.
 
 ## Data processing
 
-Data processing follows a worker/job double buffered channel to push/pop without delaying requests.
+Data processing follows a worker/job via [channel over channel](https://www.goin5minutes.com/blog/channel_over_channel/) to push/pop without delaying requests.
