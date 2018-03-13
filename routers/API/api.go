@@ -7,24 +7,24 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//APIRouter definition
-type APIRouter struct {
+//Router definition
+type Router struct {
 	routers.BaseRouter
 }
 
-//Configure the APIRouter
-func (d *APIRouter) Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) {
+//Configure the Router
+func (d *Router) Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) {
 
 	d.BaseRouter.Router = root.PathPrefix("/api").Subrouter()
 }
 
 //GetRouter ...
-func (d *APIRouter) GetRouter() *mux.Router {
+func (d *Router) GetRouter() *mux.Router {
 	return d.BaseRouter.Router
 }
 
 //GetName ...
-func (d *APIRouter) GetName() string {
+func (d *Router) GetName() string {
 
 	return "API v1 router"
 }

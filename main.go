@@ -6,9 +6,11 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"syscall"
 
 	"github.com/AlexsJones/frontier/config"
 	"github.com/AlexsJones/frontier/middleware"
+	"github.com/AlexsJones/frontier/processing"
 	api "github.com/AlexsJones/frontier/routers/API"
 	"github.com/AlexsJones/frontier/routers/API/v1"
 	"github.com/gorilla/mux"
@@ -35,11 +37,34 @@ func main() {
 	r := mux.NewRouter().StrictSlash(false)
 
 	//Load routers & subrouters
-	apiRouter := &api.APIRouter{}
+	apiRouter := &api.Router{}
 	apiRouter.Configure(r, middleware.DefaultMiddleware)
 	//version
-	v1Router := &v1.V1Router{}
+	v1Router := &v1.Router{}
 	v1Router.Configure(apiRouter.GetRouter(), middleware.DefaultMiddleware)
+
+	//Force up the file limit
+	fileset := func() {
+		var rLimit syscall.Rlimit
+
+		err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rLimit)
+		if err != nil {
+			log.Println("Error Getting Rlimit ", err)
+		}
+
+		if rLimit.Cur < rLimit.Max {
+			rLimit.Cur = rLimit.Max
+			err = syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rLimit)
+			if err != nil {
+				log.Println("Error Setting Rlimit ", err)
+			}
+		}
+		log.Println("Set file limit...")
+	}
+
+	fileset()
+
+	processing.GetDispatcher().Run()
 
 	log.Printf("Starting on port %s\n", c.Server.Port)
 

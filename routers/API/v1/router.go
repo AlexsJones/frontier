@@ -7,13 +7,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//V1Router definition
-type V1Router struct {
+//Router definition
+type Router struct {
 	routers.BaseRouter
 }
 
-//Configure the V1Router
-func (d *V1Router) Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) {
+//Configure the Router
+func (d *Router) Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc)) {
 
 	d.BaseRouter.Router = root.PathPrefix("/v1").Subrouter()
 
@@ -22,12 +22,12 @@ func (d *V1Router) Configure(root *mux.Router, middleware func(rw http.ResponseW
 }
 
 //GetRouter ...
-func (d *V1Router) GetRouter() *mux.Router {
+func (d *Router) GetRouter() *mux.Router {
 	return d.BaseRouter.Router
 }
 
 //GetName ...
-func (d *V1Router) GetName() string {
+func (d *Router) GetName() string {
 
 	return "API v1 router"
 }

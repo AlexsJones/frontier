@@ -1,6 +1,6 @@
 package processing
 
-var JobQueue chan Job
-
+//Job is a DTO for a unit to be processed
 type Job struct {
+	Payload string
 }

@@ -1,7 +1,5 @@
 package processing
 
-import "fmt"
-
 //Worker ...
 type Worker struct {
 	WorkerPool chan chan Job
@@ -26,8 +24,9 @@ func (w Worker) Start() {
 
 			select {
 			case _ = <-w.JobChannel:
-				// we have received a work request.
-				fmt.Println("Received work request")
+				//TODO; DO SOMETHING-----------------------------
+
+				//-----------------------------------------------
 			case <-w.quit:
 
 				return
