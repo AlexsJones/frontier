@@ -1,10 +1,10 @@
 # frontier
 
-A very simple golang gorilla/negroni http server example with a few useful paradigms.
-I hope this goes some small way to demonstrate a few useful ideas around create a high performance API.
-
 <img src="https://i.imgur.com/HpKOfUt.png" width="580"/>
 
+
+A very simple golang gorilla http server example with a few useful paradigms.
+I hope this goes some small way to demonstrate a few useful ideas around create a high performance API.
 
 ## Routing
 
@@ -24,7 +24,6 @@ This means using the V1 router within `routers/API/v1/router.go` is ideal for gr
 ## Data processing
 
 Data processing follows a worker/job via [channel over channel](https://www.goin5minutes.com/blog/channel_over_channel/) to push/pop without delaying requests.
-
 
 ## The example
 
