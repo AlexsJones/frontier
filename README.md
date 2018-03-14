@@ -3,6 +3,7 @@
 A very simple golang gorilla/negroni http server example with a few useful paradigms.
 I hope this goes some small way to demonstrate a few useful ideas around create a high performance API.
 
+<img src="https://i.imgur.com/HpKOfUt.png" width="580">
 ### Routing
 
 This example uses sub routers to break down paths as part of versioning API.
