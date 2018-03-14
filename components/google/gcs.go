@@ -35,7 +35,7 @@ func GetBucket() *storage.BucketHandle {
 		instance = client.Bucket(bucketName)
 		// Creates the new bucket.
 		if err := instance.Create(ctx, projectID, nil); err != nil {
-			log.Fatalf("Failed to create bucket: %v", err)
+			log.Println("Failed to create bucket: %v", err)
 		}
 	})
 	return instance

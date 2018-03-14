@@ -1,34 +1,53 @@
 package example
 
 import (
-	"io/ioutil"
+	"encoding/json"
 	"log"
+	"math"
 	"net/http"
 
 	"github.com/AlexsJones/frontier/processing"
 )
 
-//ExamplePost is for illustrative purposes of how to use the processing API
-func ExamplePost(arg1 http.ResponseWriter, arg2 *http.Request) {
+//ExampleSpecificDTO ...
+type ExampleSpecificDTO struct {
+	PrimeCandidate int
+}
 
-	// decoder := json.NewDecoder(arg2.Body)
-	//
-	// //Here we are directly calling the processing API DTO
-	// //In reality you'll probably have some mapping between the incoming JSON object and the Job DTO
-	// //We do the decoding here as otherwise we're wasting more cycles queuing it
-	// var t processing.Job
-	// err := decoder.Decode(&t)
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	arg1.WriteHeader(http.StatusBadRequest)
-	// }
-	bodyBytes, err := ioutil.ReadAll(arg2.Body)
+func IsPrime(value int) bool {
+	for i := 2; i <= int(math.Floor(float64(value)/2)); i++ {
+		if value%i == 0 {
+			return false
+		}
+	}
+	return value > 1
+}
+
+//Post is for illustrative purposes of how to use the processing API
+func Post(arg1 http.ResponseWriter, arg2 *http.Request) {
+
+	decoder := json.NewDecoder(arg2.Body)
+
+	var e ExampleSpecificDTO
+	err := decoder.Decode(&e)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
+		arg1.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var j processing.Job
+	//Cast the ExampleSpecificDTO into a generic DTO interface
+	j.DTO = e
+	//Setting up the post-processing function hook
+	j.Process = func(j processing.Job) {
+		var castback = j.DTO.(ExampleSpecificDTO)
+		if IsPrime(castback.PrimeCandidate) {
+
+			//Further processing
+		}
 	}
 
-	//Because our example uses our Job DTO we can process it directly into the JobQueue
-	processing.GetDispatcher().JobQueue <- processing.Job{Payload: bodyBytes}
+	processing.GetDispatcher().JobQueue <- j
 
 	arg1.WriteHeader(http.StatusOK)
 }

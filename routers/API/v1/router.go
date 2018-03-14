@@ -19,7 +19,7 @@ func (d *Router) Configure(root *mux.Router, middleware func(rw http.ResponseWri
 	d.BaseRouter.Router = root.PathPrefix("/v1").Subrouter()
 
 	//Example route to demonstrate processing components
-	d.BaseRouter.Router.HandleFunc("/processor", example.ExamplePost).Methods("POST")
+	d.BaseRouter.Router.HandleFunc("/processor", example.Post).Methods("POST")
 }
 
 //GetRouter ...

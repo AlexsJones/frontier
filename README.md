@@ -37,3 +37,15 @@ Also remove `API/v1/router.go` with reference to the example here:
 	//Example route to demonstrate processing components
 	d.BaseRouter.Router.HandleFunc("/processor", example.ExamplePost).Methods("POST")
 ```
+
+### testing
+
+Change into the test directory whilst running the API in another tab
+
+This load test requires `vegeta`
+
+```
+./load_test.sh
+```
+
+or you can run the go tests `go run test.go`
