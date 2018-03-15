@@ -11,6 +11,7 @@ import (
 	"github.com/AlexsJones/frontier/config"
 	"github.com/AlexsJones/frontier/middleware"
 	"github.com/AlexsJones/frontier/processing"
+	"github.com/AlexsJones/frontier/routers"
 	api "github.com/AlexsJones/frontier/routers/API"
 	"github.com/AlexsJones/frontier/routers/API/v1"
 	"github.com/gorilla/mux"
@@ -43,6 +44,10 @@ func main() {
 	v1Router := &v1.Router{}
 	v1Router.Configure(apiRouter.GetRouter(), middleware.DefaultMiddleware)
 
+	routers := []routers.IRouter{apiRouter, v1Router}
+	for _, i := range routers {
+		fmt.Printf("Loaded %s router\n", i.GetName())
+	}
 	//Force up the file limit
 	fileset := func() {
 		var rLimit syscall.Rlimit

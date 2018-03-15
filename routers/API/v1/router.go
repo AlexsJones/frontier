@@ -30,5 +30,5 @@ func (d *Router) GetRouter() *mux.Router {
 //GetName ...
 func (d *Router) GetName() string {
 
-	return "API v1 router"
+	return "V1"
 }

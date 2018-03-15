@@ -9,7 +9,7 @@ import (
 //IRouter provides a common interface for router initialisation
 type IRouter interface {
 	Configure(root *mux.Router, middleware func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc))
-	GetRouter() IRouter
+	GetRouter() *mux.Router
 	GetName() string
 }
 
@@ -20,7 +20,7 @@ func Configure(ir IRouter, root *mux.Router, middleware func(rw http.ResponseWri
 }
 
 //GetRouter ...
-func GetRouter(ir IRouter) IRouter {
+func GetRouter(ir IRouter) *mux.Router {
 	return ir.GetRouter()
 }
 
