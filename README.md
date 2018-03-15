@@ -1,5 +1,7 @@
 # frontier
 =======
+[![Go Report Card](https://goreportcard.com/badge/github.com/AlexsJones/frontier)](https://goreportcard.com/report/github.com/AlexsJones/frontier)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3eceeb49838553cb94fb/maintainability)](https://codeclimate.com/github/AlexsJones/frontier/maintainability)
 
 <img src="https://i.imgur.com/HpKOfUt.png" width="580"/>
 
