@@ -45,6 +45,14 @@ go run test.go #Runs the incremental prime tests
 ./load_test.sh #Runs a static POST request scan
 ```
 
+### Example code throughput
+
+The example is pretty arbitrary but hopefully demonstrates it is perfectly possibly to process
+many thousands of requests per second.
+
+Bench marking on a laptop at around 10k RP/S it is easy to imagine that load balancing several frontier API 
+as containers could easily achieve over 100,000 RP/S
+
 ### Removing example code
 
 To remove the example please remove `routers/API/v1/example` folder
