@@ -10,5 +10,4 @@ func DefaultMiddleware(rw http.ResponseWriter, r *http.Request, next http.Handle
 	// do some stuff before
 	log.Printf("Middleware hit: %s\n", r.Header)
 	next(rw, r)
-	// do some stuff after
 }

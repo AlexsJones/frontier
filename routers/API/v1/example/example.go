@@ -1,10 +1,13 @@
 package example
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"math"
 	"net/http"
+	"os"
 
 	"github.com/AlexsJones/frontier/processing"
 )
@@ -40,10 +43,28 @@ func Post(arg1 http.ResponseWriter, arg2 *http.Request) {
 	j.DTO = e
 	//Setting up the post-processing function hook
 	j.Process = func(j processing.Job) {
+
 		var castback = j.DTO.(ExampleSpecificDTO)
+
+		dest := os.Getenv("REQUESTBIN_URL")
+
+		if dest == "" {
+			fmt.Printf("Please set REQUESTBIN_URL to run this example\n")
+			os.Exit(1)
+		}
+
 		if IsPrime(castback.PrimeCandidate) {
 
 			//Further processing
+			client := &http.Client{}
+			var jsonStr = []byte(fmt.Sprintf(`{ "PrimeFound": %d }`, castback.PrimeCandidate))
+			req, err := http.NewRequest("POST", dest, bytes.NewBuffer(jsonStr))
+			req.Header.Set("Content-Type", "application/json")
+			resp, err := client.Do(req)
+			if err != nil {
+				panic(err)
+			}
+			defer resp.Body.Close()
 		}
 	}
 
