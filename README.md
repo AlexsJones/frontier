@@ -28,29 +28,30 @@ Data processing follows a worker/job via [channel over channel](https://www.goin
 
 ## The example
 
-To run the example please grab a free requestbin URL to forward our requests too
-This is required to upload the test JSON once primes have been processed
-e.g...
-```
-export REQUESTBIN_URL="https://requestb.in/poe29ypo"
-```
+This example checks if the incoming number is prime then sends it to a kafka topic
+called `test` with the prime number if it is.
 
-Change into the test directory whilst running the API in another tab
-
-This load test requires `vegeta` a golang package
 
 ```
+# requires kafka running locally https://kafka.apache.org/quickstart with `test` topic
+# run go run main.go
+# in another tab run the tests
 cd test
 go run test.go #Runs the incremental prime tests
-./load_test.sh #Runs a static POST request scan
 ```
+
+### Example components
+
+Within the `components` directory are a few singleton pattern components.
+The reason they are singletons is to make them completely atomic and rely on ENV settings.
+This works well in an example where you don't necessarily want to impede the user with initialisation of functionality they don't want or understand - it is kept inside of routes only.
 
 ### Example code throughput
 
 The example is pretty arbitrary but hopefully demonstrates it is perfectly possibly to process
 many thousands of requests per second.
 
-Bench marking on a laptop at around 10k RP/S it is easy to imagine that load balancing several frontier API 
+Bench marking on a laptop at around 10k RP/S it is easy to imagine that load balancing several frontier API
 as containers could easily achieve over 100,000 RP/S
 
 ### Removing example code

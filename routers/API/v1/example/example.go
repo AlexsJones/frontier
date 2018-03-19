@@ -1,22 +1,22 @@
 package example
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
 	"math"
 	"net/http"
-	"os"
 
+	"github.com/AlexsJones/frontier/components/kafka"
 	"github.com/AlexsJones/frontier/processing"
 )
 
-//ExampleSpecificDTO ...
-type ExampleSpecificDTO struct {
+//DTO ...
+type DTO struct {
 	PrimeCandidate int
 }
 
+//IsPrime is a pretty simple function for our example
 func IsPrime(value int) bool {
 	for i := 2; i <= int(math.Floor(float64(value)/2)); i++ {
 		if value%i == 0 {
@@ -31,7 +31,7 @@ func Post(arg1 http.ResponseWriter, arg2 *http.Request) {
 
 	decoder := json.NewDecoder(arg2.Body)
 
-	var e ExampleSpecificDTO
+	var e DTO
 	err := decoder.Decode(&e)
 	if err != nil {
 		log.Println(err.Error())
@@ -44,27 +44,11 @@ func Post(arg1 http.ResponseWriter, arg2 *http.Request) {
 	//Setting up the post-processing function hook
 	j.Process = func(j processing.Job) {
 
-		var castback = j.DTO.(ExampleSpecificDTO)
-
-		dest := os.Getenv("REQUESTBIN_URL")
-
-		if dest == "" {
-			fmt.Printf("Please set REQUESTBIN_URL to run this example\n")
-			os.Exit(1)
-		}
+		var castback = j.DTO.(DTO)
 
 		if IsPrime(castback.PrimeCandidate) {
-
-			//Further processing
-			client := &http.Client{}
-			var jsonStr = []byte(fmt.Sprintf(`{ "PrimeFound": %d }`, castback.PrimeCandidate))
-			req, err := http.NewRequest("POST", dest, bytes.NewBuffer(jsonStr))
-			req.Header.Set("Content-Type", "application/json")
-			resp, err := client.Do(req)
-			if err != nil {
-				panic(err)
-			}
-			defer resp.Body.Close()
+			//If this is prime then lets send to kafka
+			kafka.GetServiceBus().Produce([]byte(fmt.Sprintf("%d", castback.PrimeCandidate)))
 		}
 	}
 
