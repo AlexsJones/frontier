@@ -74,7 +74,4 @@ func (s *ServiceBus) Produce(data []byte, optTopic ...string) {
 		TopicPartition: kafka.TopicPartition{Topic: &currentTopic, Partition: kafka.PartitionAny},
 		Value:          data,
 	}, nil)
-
-	// Wait for message deliveries
-	//p.Flush(15 * 1000)
 }
