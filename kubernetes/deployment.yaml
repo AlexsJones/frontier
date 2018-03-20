@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: frontier
+spec:
+  replicas: 10
+  progressDeadlineSeconds: 30
+  template:
+    metadata:
+      labels:
+        app: frontier
+    spec:
+      containers:
+      - name: events
+        # built with the example route working
+        image: tibbar/frontier:v1
+        command:
+          - sh
+          - -c
+          - frontier -conf dynamic-config.yaml
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - name: frontier-config
+            mountPath: /go/src/github.com/AlexsJones/frontier/dynamic-config.yaml
+            subPath: dynamic-config.yaml
+      volumes:
+        - name: frontier-config
+          configMap:
+            name: frontier-config

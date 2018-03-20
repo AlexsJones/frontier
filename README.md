@@ -29,9 +29,21 @@ This means using the V1 router within `routers/API/v1/router.go` is ideal for gr
 
 Data processing follows a worker/job via [channel over channel](https://www.goin5minutes.com/blog/channel_over_channel/) to push/pop without delaying requests.
 
+## Kubernetes
+
+Includes kubernetes manifests and dockerfile for deployment into a k8s cluster.
+
+Test it out in minikube with `./kubernetes/deploy.sh`
+Then look at the created deployment `kubectl get pods --namespace=entrypoint`
+
 ## The example
 
-This example checks if the incoming number is prime then sends it to a kafka topic
+`http`
+This example is a simple `GET` that returns a `200`
+You can test it at `localhost:8080/api/v1/ping`
+
+`kafka`
+This example `POST` checks if the incoming number is prime then sends it to a kafka topic
 called `test` with the prime number if it is.
 
 

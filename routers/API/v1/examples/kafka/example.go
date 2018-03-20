@@ -1,4 +1,4 @@
-package example
+package kafka
 
 import (
 	"encoding/json"
