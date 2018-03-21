@@ -10,6 +10,15 @@
 A very simple golang gorilla http server example with a few useful paradigms.
 I hope this goes some small way to demonstrate a few useful ideas around create a high performance API.
 
+### Requirements
+
+For the example install librdkafka
+```
+RUN git clone https://github.com/edenhill/librdkafka.git
+RUN cd librdkafka && ./configure --prefix /usr && make \
+&& sudo make install
+```
+
 ## Routing
 
 This example uses sub routers to break down paths as part of versioning API.
