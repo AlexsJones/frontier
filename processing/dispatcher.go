@@ -9,6 +9,7 @@ var (
 	maxWorkers = 10
 )
 
+//----> Workers ---->
 //Dispatcher object contains Jobs
 type Dispatcher struct {
 	WorkerPool chan chan Job
