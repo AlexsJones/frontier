@@ -6,6 +6,7 @@ import (
 	"github.com/AlexsJones/frontier/routers"
 	h "github.com/AlexsJones/frontier/routers/API/v1/examples/http"
 	"github.com/AlexsJones/frontier/routers/API/v1/examples/kafka"
+	"github.com/AlexsJones/frontier/routers/API/v1/examples/s3"
 	"github.com/gorilla/mux"
 )
 
@@ -22,6 +23,7 @@ func (d *Router) Configure(root *mux.Router, middleware func(rw http.ResponseWri
 	//Example route to demonstrate processing components
 	d.BaseRouter.Router.HandleFunc("/processor", kafka.Post).Methods("POST")
 	d.BaseRouter.Router.HandleFunc("/ping", h.Post).Methods("GET")
+	d.BaseRouter.Router.HandleFunc("/bucketfetch", s3.Post).Methods("POST")
 }
 
 //GetRouter ...

@@ -64,6 +64,11 @@ cd test
 go run test.go #Runs the incremental prime tests
 ```
 
+`s3`
+This example is a simple `POST` that returns a `200`
+You can run it from `./test/s3_test/post.sh` after modifying your s3 bucket details
+It will list the keys in that bucket
+
 ### Example components
 
 Within the `components` directory are a few singleton pattern components.
